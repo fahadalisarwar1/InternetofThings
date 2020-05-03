@@ -66,8 +66,40 @@ def plot_df(parameter):
     plt.figure()
     df[parameter].plot()
     plt.show()
+    plt.xlabel("Time")
+    plt.ylabel(parameter)
+    plt.title("Plot for " + parameter)
     plt.savefig("images/plot_"+parameter+".png")
 
-to_plot = ["temperature", "humidity", "visibility", "pressure", "windSpeed", "windBearing", ""]
 
+import plotly.graph_objects as go
+
+
+def plot_with_plotly(parameter="temperature"):
+    fig = go.Figure()
+    trace = go.Scatter(
+        x=df.index,
+        y=df[parameter],
+        mode="lines",
+
+    )
+
+    fig.update_layout(
+        title="Plot for "+parameter,
+        xaxis_title="time",
+        yaxis_title=parameter
+    )
+    fig.add_trace(trace)
+    fig.write_image("images/plot_" + parameter + ".png")
+    fig.show()
+
+
+to_plot = ["temperature", "humidity", "visibility", "pressure", "windSpeed",
+           "windBearing", "precipIntensity", "dewPoint"]
+# to_plot = ["temperature"]
+
+for feat in to_plot:
+    # plot_df(feat)
+
+    plot_with_plotly(feat)
 
